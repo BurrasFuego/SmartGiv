@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donations DApp</title>
+</head>
+<body>
+    <h1>Donations DApp</h1>
+    <p>Balance del contrato: <span id="contractBalance"></span> ETH</p>
+    <label for="donationAmount">Monto de Donación (ETH): </label>
+    <input type="number" id="donationAmount" step="0.01">
+    <button onclick="donate()">Donar</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script>
+        // Dirección del contrato
+        const contractAddress = '0xB504E215806a42F00078f7B71dE54466513F5662';
+
+        // ABI del contrato
+        const contractABI = [
+            {
+                "inputs": [],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "donor",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "DonationReceived",
+                "type": "event"
+            },
+            {
+                "inputs": [],
+                "name": "donate",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "owner",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "withdraw",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "donations",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+
+        // Crear una instancia del contrato
+        const web3 = new Web3(Web3.givenProvider);
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+        // Función para donar al contrato
+        async function donate() {
+            const donationAmount = document.getElementById('donationAmount').value;
+            const accounts = await web3.eth.getAccounts();
+            const sender = accounts[0];
+
+            // Enviar la transacción de donación
+            await contract.methods.donate().send({
+                from: sender,
+                value: web3.utils.toWei(donationAmount, 'ether')
+            });
+
+            // Actualizar el saldo del contrato
+            updateContractBalance();
+        }
+
+        // Función para obtener y mostrar el saldo del contrato
+        async function updateContractBalance() {
+            const balance = await web3.eth.getBalance(contractAddress);
+            const balanceEth = web3.utils.fromWei(balance, 'ether');
+            document.getElementById('contractBalance').textContent = balanceEth;
+        }
+
+        // Llamar a la función al cargar la página
+        window.onload = updateContractBalance;
+    </script>
+</body>
+</html>
