@@ -3,14 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donations DApp</title>
+    <title>Donaciones DApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333333;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            width: 100px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Donations DApp</h1>
-    <p>Balance del contrato: <span id="contractBalance"></span> ETH</p>
-    <label for="donationAmount">Monto de Donación (ETH): </label>
-    <input type="number" id="donationAmount" step="0.01">
-    <button onclick="donate()">Donar</button>
+    <div class="container">
+        <h1>Smart Giv</h1>
+        <p>Contact Balance: <span id="contractBalance"></span> ETH</p>
+        <label for="donationAmount">Donation Amount (ETH): </label>
+        <input type="number" id="donationAmount" step="0.01">
+        <button onclick="donate()">Donate</button>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <script>
@@ -19,7 +75,7 @@
 
         // ABI del contrato
         const contractABI = [
-            {
+        {
                 "inputs": [],
                 "stateMutability": "nonpayable",
                 "type": "constructor"
@@ -123,3 +179,4 @@
     </script>
 </body>
 </html>
+
