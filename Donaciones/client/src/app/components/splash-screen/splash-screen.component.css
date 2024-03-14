@@ -1,0 +1,23 @@
+body{
+    padding:0;
+    margin: 0;
+}
+.splash:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: url(https://i.pinimg.com/originals/44/79/37/4479376b035083d16895266055cd6bd3.gif);
+    background-position: center;
+    background-size: contain;
+    mix-blend-mode: screen;
+    mix-blend-mode: multiply;
+    filter: invert(1);
+}
+
+.splash {
+    position: relative;
+    height: 100vh;
+    background: url(logo.jpg);
+    background-size: cover;
+}
