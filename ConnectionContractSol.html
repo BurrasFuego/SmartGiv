@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Giv</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333333;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            width: 100px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Giv</h1>
+        <p>Contact Balance: <span id="contractBalance"></span> ETH</p>
+        <label for="donationAmount">Donation Amount (ETH): </label>
+        <input type="number" id="donationAmount" step="0.01">
+        <button onclick="donate()">Donate</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script>
+        // Dirección del contrato
+        const contractAddress = '0xB504E215806a42F00078f7B71dE54466513F5662';
+
+        // ABI del contrato
+        const contractABI = [
+        {
+                "inputs": [],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "donor",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "DonationReceived",
+                "type": "event"
+            },
+            {
+                "inputs": [],
+                "name": "donate",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "owner",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "withdraw",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "donations",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+
+        // Crear una instancia del contrato
+        const web3 = new Web3(Web3.givenProvider);
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+        // Función para donar al contrato
+        async function donate() {
+            const donationAmount = document.getElementById('donationAmount').value;
+            const accounts = await web3.eth.getAccounts();
+            const sender = accounts[0];
+
+            // Enviar la transacción de donación
+            await contract.methods.donate().send({
+                from: sender,
+                value: web3.utils.toWei(donationAmount, 'ether')
+            });
+
+            // Actualizar el saldo del contrato
+            updateContractBalance();
+        }
+
+        // Función para obtener y mostrar el saldo del contrato
+        async function updateContractBalance() {
+            const balance = await web3.eth.getBalance(contractAddress);
+            const balanceEth = web3.utils.fromWei(balance, 'ether');
+            document.getElementById('contractBalance').textContent = balanceEth;
+        }
+
+        // Llamar a la función al cargar la página
+        window.onload = updateContractBalance;
+    </script>
+</body>
+</html>
+
