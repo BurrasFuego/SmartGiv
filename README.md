@@ -9,4 +9,9 @@ Lack of transparency in the management of funds and methods for allocating resou
 
 In addition, one of the current limitations with the use of blockchain technology is that users do not have the necessary familiarity with its use and its technical complexity in the management of cryptocurrency addresses and the security of transactions can be an obstacle for a complete adoption and even acceptance. Transaction security and protection against potential fraud are ongoing and critical concerns that must be addressed to ensure the integrity of the donation process. Also, the lack of a legal framework for cryptocurrency transactions and donations can create uncertainty and hinder the legal and ethical operation of the platform.
 
+## Video demostration
+
+https://github.com/BurrasFuego/SmartGiv/assets/158779869/e4f8d0e5-083d-42cb-9255-6ffd99430ced
+
+
 
