@@ -1,6 +1,8 @@
 # SmartGiv
 Emergency donation system using blockchain technology. U-Hack 2024
 
+## NOTE: The main source code is found in the master branch.
+
 ## The problem it solves
 
 Today, philanthropic activities and charitable giving are key to addressing a variety of social, humanitarian and environmental issues. However, the traditional donation process often faces obstacles such as lack of transparency, high transaction costs and delays in distributing funds to charities. The rise of cryptocurrencies and blockchain technology provide a potential solution to the current challenges of donation systems, but also bring new questions and obstacles.
